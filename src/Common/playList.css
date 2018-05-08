@@ -1,0 +1,124 @@
+.page {
+    flex:1;
+    background-color:#ffffff;
+    font-size:32px;
+    flex-direction: column;
+}
+
+.section_gap{
+    padding: 0 0px;
+}
+.play-list{
+  font-size: 0;
+  flex-direction: column;
+  flex: 1;
+}
+.player-container{
+  flex-direction: column;
+  width: 100%;
+  font-size: 0;
+}
+.player{
+  width: 750px;
+  height: 422px;
+}
+.v-cover-container{
+  width: 100%;
+  height: 422px;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.v-cover-container .v-cover{
+  width: 100%;
+  height: 422px;
+}
+.v-cover-container .v-mask{
+  width: 100%;
+  height: 422px;
+  background-color: rgba(0,0,0,0.2);
+}
+.v-cover-container .v-title{
+  width: 702px;
+  align-items: flex-start;
+  margin-top:22px;
+  margin-left:24px;
+}
+.v-cover-container .v-title text{
+  font-size:36px;
+  color: #ffffff;
+}
+.v-cover-container .v-play-btn{
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.v-cover-container .v-play-btn .v-btn{
+  height:94px;
+  width: 76px;
+}
+.v-cover-container .v-info{
+  flex-direction: row;
+  width:100%;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+  margin-right:34px;
+}
+.v-cover-container .v-info text{
+  font-size: 24px;
+  color : #ffffff;
+}
+.v-opt-container .like-wrap {
+width:30px;
+height:30px;
+margin-left:29px;
+  margin-top: 30px;
+}
+.link-to-playpage{
+  /* border:2px solid #000000; */
+  width: 30%;
+}
+.v-opt-container .like-wrap .like_num{
+  top: -5px;
+  left: 25px;
+  font-size: 18px;
+}
+.v-opt-container .liked .like_num{
+  color: #e63737;
+}
+.v-opt-container .share-wrap{
+}
+
+.v-opt-container .share-text{
+  color: #545454;
+}
+.v-opt-container .share-wxfriend{
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  width: 40px;
+  margin-left: 37px;
+}
+.play-v-name{
+  width: 702px;
+  font-size: 36px;
+  color: #ffffff;
+  top: 22px;
+  left: 24px;
+}
+.laoding-wrap{
+  width: 100%;
+  height: 64px;
+  text-align: center;
+  margin: 120px 0;
+}
+.load-more{
+  width: 100%;
+  margin: 40px 0;
+  height: 44px;
+  justify-content: center;
+}
+.p_hide{
+  display: none;
+}

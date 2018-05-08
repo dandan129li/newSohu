@@ -1,0 +1,69 @@
+<template>
+  <div>
+  <text>{{$idx}}</text>
+    <div class="item-content-circular" if="{{prop2.length<1}}">
+      <progress class="circular-1" type="circular"></progress>
+      <text class="item-title">正在努力加载中······</text>
+    </div>
+    <refresh class="refresh" onrefresh="refresh" refreshing="{{isRefreshing}}">
+      <list class="section" scrollpage="{{scrollPage}}"  onscrollbottom="onReachBottom"  >
+      <list-item type="listItem"  id="{{$item.vid}}"  for="{{prop2}}" class=' play-list' >
+      <stack>
+        <block if="{{$idx!==currPlayIndex}}">
+          <div class='player-container' id="{{$item.vid}}">
+          <div class="v-cover-container"  onclick="play({vid:$item.vid,site:$item.site,index:$idx})">
+          <stack>
+            <image class='v-cover' src='{{$item.cover}}' style='resize-mode:contain'></image>
+            <div class='v-mask'></div>
+            <div class='v-title'><text>{{$item.video_name}}{{($idx==0&&prop2.length<12)?prop2.length:''}}</text></div>
+            <div class='v-play-btn'>
+              <image class='v-btn' src='../Common/images/play-ico.png' ></image>
+            </div>
+            <div class='v-info'>
+            <text>{{$item.play_count_short}}播放 | {{$item.time_length_format}}</text></div>
+            </stack>
+          </div>
+          </div>
+        </block>
+        <div class="player" id="playerBox" style="height:422px"   >
+          <video id="player_{{$idx}}_{{currentChannelId}}" if="{{$idx===currPlayIndex&&currPlayUrl!==''}}" src="{{currPlayUrl}}"  autoplay="{{isWIFI}}"  onfinish="playNext" poster="https://photocdn.tv.sohu.com/img/20180302/pic_compress_2d4e7934-f71a-411c-a404-0a1d326f42e5_q_mini.png"></video>
+        </div>
+        </stack>
+
+        <div class='v-opt-container cf' >
+          <div class='v-user'>
+            <image class='v-user-avatar' src="{{$item.header}}"></image>
+            <text if="{{$item.header!=undefined}}" class='v-user-name'>{{$item.userName}}</text>
+          </div>
+          <div class='like-wrap' if="{{likeList[$item.vid]!=undefined}}" onclick="like({vid:$item.vid,likenum:likeList[$item.vid]})">
+            <image src="../Common/images/like-ico.png"></image>
+            <text   class="like-num" if="{{likeList[$item.vid]!=undefined}}">{{likeList[$item.vid.likeNum]}}</text>
+          </div>
+        <div class="link-to-playpage" onclick="routePush('Play',{vid:$item.vid,site:$item.site,aid:$item.aid,user_id:$item.user_id})"></div>
+        <div class="share_area" onclick="shareText({title:$item.video_name,cover:$item.cover,playUrl:$item.play_url})">
+          <image src="../Common/images/share-ico.png"></image>
+        </div>
+
+        </div>
+      </list-item>
+      <list-item type="loadMore" class="load-more" if="{{loadingMore}}">
+          <progress type="circular"></progress>
+          <text>加载更多</text>
+      </list-item>
+     </list>
+     </refresh>
+  <div>
+</template>
+<style src="./index.css"></style>
+<script>
+import router from '@system.router'
+export default{
+routePush: function (path,params) {
+      //  router.clear();
+        router.push({
+         uri:path,
+          params: params
+        })
+      }
+}
+</script>

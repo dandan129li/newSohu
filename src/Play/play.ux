@@ -1,0 +1,135 @@
+<template>
+<div class="container">
+  <div class="item-content-circular" if="{{!videoLoaded}}">
+    <progress class="circular-1" type="circular"></progress>
+    <text class="item-title">正在努力加载中······</text>
+  </div>
+    <div class="player" id="playerBox" style="height: {{playHeight}}px" if="{{videoLoaded}}" >
+    <stack>
+      <video id="player" src="{{videosrc}}" poster="{{poster}}" autoplay="{{isWIFI}}"  ></video>
+      <text class="wifi-tip" if="{{showNoneWifiWarning}}">您正在使用非wifi网络，播放将产生流量费用</text>
+      <image class="video_back" src="../Common/images/like-ico.png"></image>
+      </stack>
+    </div>
+
+    <div if="{{videoLoaded}}" class="no-player"  style="width:100%;">
+    <!--标题 详情-->
+      <div class="header">
+          <text class="title">{{video.video_name}}</text>
+          <div class="share_area" onclick="shareText({title:video.video_name,cover:poster,playUrl:videosrc})">
+            <image src="../Common/images/share-ico.png"></image>
+          </div>
+      </div>
+      <div class="videoInfo" if="{{showDescVisible}}" >
+          <div class="videoInfo-play">
+              <text class="video-play">{{video.play_count}}播放</text>
+              <text class="video-publishTime">{{video.publish_time}}</text>
+          </div>
+          <text class="video-desc">{{video.video_desc}}</text>
+      </div>
+      <div class="userinfo top-shadow">
+          <image class="userinfo-avatar" src="{{userInfo.small_pic}}" ></image>
+          <div class="userinfo-text">
+              <text class="userinfo-nickname">{{userInfo.nickname}}</text>
+              <div if="{{video.keyword&&video.keyword.length}}" class="tag-list-div">
+                  <text class="tag-list fix-android-align " for="{{video.keyword}}">
+                    <span>{{$item}}</span>
+                  </text>
+              </div>
+          </div>
+      </div>
+      <!--出品人剧集-->
+      <div class="album wrap top-shadow" if="{{albumList&&albumList.length}}">
+          <div class="videoInfo-tip">
+            <text class="title">  出品人剧集</text>
+            <text class="more" onclick="toggleAlbumShow">查看更多</text>
+          </div>
+          <list class="album-list {{loadingAlbumList?'loading-album1':''}} {{minAlbumPage==1?'first-done':''}} {{maxAlbumPage==albumPageCount?'last-done':''}}"  onscrolltop="albumLoadFirst" onscrollbottom="albumLoadLast" id="cprList"   scrollpage="true">
+                  <list-item type="listItem" for="{{albumList}}" id="albumItem{{$item.vid}}"  onclick="routePush('Play',{vid:$item.vid,site:$item.site,aid:$item.aid,user_id:$item.user_id})" >
+                      <text class="album-text {{$item.vid==vid?'curr':''}}">{{$item.video_name}}</text>
+                  </list-item>
+          </list>
+          <text class="dummy" if="{{albumList.length <= 2 && albumItemCount > 2}}">
+              <span>目前只有一个视频</span>
+            </text>
+      </div>
+      <!--相关推荐-->
+      <div class="recom  wrap top-shadow" if="{{recom&&recom.length}}" >
+        <div class="videoInfo-tip">
+          <text class="title">  相关推荐</text>
+          <text class="more" onclick="toggleBlock('recomShown')">查看更多</text>
+        </div>
+        <list class="recom-list" style="columns:2;">
+            <list-item type="listItem" class="recom-list-item" for="{{recom}}" onclick="routePush('Play',{vid:$item.vid,site:$item.site,aid:$item.aid,user_id:$item.user_id})" >
+                    <image  src="{{$item.hor_big_pic}}" ></image>
+                    <text>{{$item.video_name}}</text>
+            </list-item>
+        </list>
+      </div>
+      <!--评论-->
+      <div class="comment wrap top-shadow" if="{{comment && comment.comments}}">
+          <div class="videoInfo-tip">
+            <text class="title">评论</text>
+            <text class="more"  if="{{comment.cmt_sum > 3}}">共{{comment.participation_sum}}人参与/{{comment.cmt_sum}}条评论</text>
+          </div>
+          <list class="comment-list" if="{{comment.comments && comment.comments.length > 0}}" style="columns:1;">
+            <list-item for="{{comment.comments}}"  type="listItem" class="item" >
+              <div class="user-info">
+                  <div class="">
+                      <image  src="{{$item.passport.img_url}}"  ></image>
+                      <text>{{$item.passport.nickname}}</text>
+                  </div>
+                  <text class="date">{{$item.publishDate}}</text>
+              </div>
+              <div class="comment-content">
+                  <div class="floor-box" if="{{$item.comments && $item.comments.length}}" >
+                  </div>
+                  <text class="content">{{$item.content}}</text>
+                </div>
+            </list-item >
+          </list>
+          <text if="{{comment.comments && comment.comments.length == 0}}" class="no-comment">
+              暂无评论
+          </text>
+      </div>
+    </div>
+ <!--出品人剧集-->
+    <div show="{{albumShown}}" class="fix-popup" if="{{albumList&&albumList.length}}" style="height: {{pageHeight}}px; top: {{playHeight}}px;">
+      <div class="popup-title">
+          <text class="title">出品人剧集</text>
+          <text class="close" onclick="toggleAlbumShow">关闭</text>
+      </div>
+      <list class="album-popup-list {{minAlbumPage==1?'first-done':''}} {{maxAlbumPage==albumPageCount?'last-done':''}}"  style="height: {{pageHeight-popupTitleHeight}}px; columns:1;" onscrolltop="albumLoadFirst" onscrollbottom="albumLoadLast"  scrollpage="true">
+        <list-item class="album-item item-{{$idx}}" for="{{albumList}}"  id="albumItemPopup{{$idx}}"  onclick="routePush('Play',{vid:$item.vid,site:$item.site,aid:$item.aid,user_id:$item.user_id})"  type="listItem">
+          <text class="title {{$item.vid==vid?'curr':''}}">{{$item.video_name}}</text>
+          <div class="info">
+            <text>{{$item.playCount}}次播放</text>
+            <text>{{$item.publishDate}}</text>
+          </div>
+        </list-item>
+        <list-item type="loadMore" class="load-more" if="{{albumItemCount> 4}}">
+              <progress type="circular"></progress>
+              <text>加载更多</text>
+          </list-item>
+        </list>
+    </div>
+     <!--相关推荐more-->
+    <div show="{{recomShown}}" class="fix-popup" if="{{recomAll&&recomAll.length}}" style="height: {{pageHeight}}px; top: {{playHeight}}px;" >
+      <div class="popup-title">
+          <text class="title">相关推荐</text>
+          <text class="close" onclick="toggleBlock('recomShown')">关闭</text>
+      </div>
+      <list class="recom-popup-list {{minAlbumPage==1?'first-done':''}} {{maxAlbumPage==albumPageCount?'last-done':''}}"  style="height: {{pageHeight-popupTitleHeight}}px; columns:1;" >
+        <list-item class="item" for="{{recomAll}}" onclick="routePush('Play',{vid:$item.vid,site:$item.site,aid:$item.aid,user_id:$item.user_id})"  type="product">
+          <image src="{{$item.hor_big_pic}}" ></image>
+          <div class="info">
+            <text class="title">{{$item.video_name}}</text>
+            <text class="play-count">{{$item.playCount}}播放</text>
+          </div>
+        </list-item>
+        </list>
+    </div>
+</div>
+</template>
+<style src="./play.css"></style>
+<script src="./play.js"></script>

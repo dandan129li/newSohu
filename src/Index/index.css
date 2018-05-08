@@ -1,0 +1,112 @@
+@import '../Common/playList.css';
+.section{
+    margin-bottom: 0;
+    background-color:#ffffff;
+    flex-direction: column;
+    flex:1;
+}
+.section_gap{
+    padding: 0 0px;
+}
+.nav-logo{
+  width: 161px;
+  height: 41px;
+  margin-top:40px;
+  margin-left: 10px;
+}
+tab-bar{
+  margin-left:181px;
+  margin-top:-72px;
+}
+.ui-navbar{
+  flex-direction: row;
+  height: 100px;
+  align-items:center;
+}
+
+.scroll-view_H{
+   flex-wrap: nowrap;
+   height: 100px;
+   line-height: 100px;
+   flex-direction: row;
+   flex:1;
+}
+
+.scroll-view-item_H{
+   flex-wrap:nowrap;
+   text-align:center;
+   align-items:center;
+   height:100px;
+   line-height:100px;
+   padding:0 25px;
+   color:#1a1a1a;
+   font-size:34px;
+   text-decoration:none;
+ }
+ .nav-text{
+    color:#1a1a1a;
+ }
+ .current{
+   color: #ff382e;
+ }
+ .tab-text:active {
+   color: #f76160;
+ }
+
+ .navigator-hover {
+    color: #ff382e;
+    background-color: rgba(0, 0, 0, 0.1);
+ }
+
+ .scroll-view-url {
+     font-size:34px;
+     color:#1a1a1a;
+ }
+.v-opt-container{
+  width: 100%;
+  font-size: 24px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.v-opt-container .v-user{
+  margin-left: 24px;
+  padding: 22px 0 32px;
+}
+.v-opt-container .v-user .v-user-avatar{
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  align-items:center;
+}
+.v-opt-container .v-user .v-user-name{
+  font-size: 24px;
+  color : #545454;
+  margin-left: 12px;
+  align-items:center;
+  line-height: 40px;
+}
+
+.v-opt-container .share_area {
+margin-right: 24px;
+align-items: center;
+}
+.v-opt-container .share_area image{
+width: 30px;
+height: 30px;
+}
+.item-container{
+  flex-direction: column;
+}
+.item-content-circular {
+  margin-bottom: 60px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  flex:1;
+}
+.circular-1{
+  width: 60px;
+  height: 60px;
+   color:#09ba07;
+}
